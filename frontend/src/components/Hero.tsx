@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { ApiResponse, ProjectStats, SpigotMCStats, HuggingFaceModelStats } from '../types/statistics';
+import { ProjectStats } from '../types/statistics';
+import { ApiResponse, HuggingFaceModelStats } from '../types/api-responses';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
@@ -50,7 +51,6 @@ const Hero: React.FC<HeroProps> = ({ name = 'Michiel' }) => {
   const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [hoveredSlice, setHoveredSlice] = useState<number | null>(null);
   const [impactData, setImpactData] = useState<ImpactData[]>([
     { 
       category: 'Plugins', 
@@ -498,8 +498,6 @@ const Hero: React.FC<HeroProps> = ({ name = 'Michiel' }) => {
                 <div 
                   key={item.category} 
                   className={`flex items-center cursor-pointer transition-transform hover:scale-105 ${isLoading ? 'opacity-50' : ''}`}
-                  onMouseEnter={() => !isLoading && setHoveredSlice(index)}
-                  onMouseLeave={() => !isLoading && setHoveredSlice(null)}
                   onClick={() => {
                     if (!isLoading) {
                       navigate('/', { state: { activeTab: item.tabName } });

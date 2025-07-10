@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Project, ProjectStats, ApiResponse, SpigotMCStats, HuggingFaceModelStats, HuggingFaceResponse, HuggingFaceModelResponse, WebsiteStats, PaperStats, SteamWorkshopStats, SteamWorkshopResponse, SteamWorkshopItemResponse, CloudflareDomain, CloudflareStats } from '../types/statistics';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Project, ProjectStats, SpigotMCStats, PaperStats, SteamWorkshopStats, CloudflareDomain, CloudflareStats } from '../types/statistics';
+import { ApiResponse, HuggingFaceModelStats, HuggingFaceResponse, HuggingFaceModelResponse } from '../types/api-responses';
 import ThemeToggle from '../components/ThemeToggle';
 import StatisticsSkeleton from '../components/StatisticsSkeleton';
 import WebsiteStatisticsSkeleton from '../components/WebsiteStatisticsSkeleton';
 import Hero from '../components/Hero';
 import { useLocation } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub, faJava, faPython } from '@fortawesome/free-brands-svg-icons';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -64,6 +63,23 @@ function setCache(key: string, data: any) {
   );
 }
 
+const discordBots: DiscordBotStats[] = [
+  {
+    name: 'Auditlogger V2',
+    servers: 275,
+    estimatedUsers: 275 * 500,
+    isV2: true,
+    lastUpdated: new Date(),
+  },
+  {
+    name: 'Auditlogger V1',
+    servers: 6250,
+    estimatedUsers: 6250 * 500,
+    isV2: false,
+    lastUpdated: new Date(),
+  },
+];
+
 const Projects: React.FC = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState<'minecraft' | 'discord' | 'ai' | 'websites' | 'papers' | 'mods'>(
@@ -80,9 +96,7 @@ const Projects: React.FC = () => {
   const [selectedDiscordBot, setSelectedDiscordBot] = useState<DiscordBotStats | null>(null);
   const [aiModels, setAiModels] = useState<HuggingFaceModelStats[]>([]);
   const [selectedAiModel, setSelectedAiModel] = useState<HuggingFaceModelStats | null>(null);
-  const [loadingAi, setLoadingAi] = useState(false);
   const [loadingAiStats, setLoadingAiStats] = useState(false);
-  const [selectedWebsite, setSelectedWebsite] = useState<WebsiteStats | null>(null);
   const [selectedPaper, setSelectedPaper] = useState<PaperStats | null>(null);
   const [steamMods, setSteamMods] = useState<SteamWorkshopStats[]>([]);
   const [selectedMod, setSelectedMod] = useState<SteamWorkshopStats | null>(null);
@@ -94,44 +108,6 @@ const Projects: React.FC = () => {
   const [loadingDomains, setLoadingDomains] = useState(false);
   const [loadingDomainStats, setLoadingDomainStats] = useState(false);
   const { theme } = useTheme();
-
-  const discordBots: DiscordBotStats[] = [
-    {
-      name: 'Auditlogger V2',
-      servers: 275,
-      estimatedUsers: 275 * 500,
-      isV2: true,
-      lastUpdated: new Date(),
-    },
-    {
-      name: 'Auditlogger V1',
-      servers: 6250,
-      estimatedUsers: 6250 * 500,
-      isV2: false,
-      lastUpdated: new Date(),
-    },
-  ];
-
-  const websites: WebsiteStats[] = [
-    {
-      name: 'Neuroswarm.org',
-      url: 'https://neuroswarm.org',
-      description: 'A project index site for all community projects related to the Neurosama AI twitch streamer.',
-      uniqueVisitors30Days: 0,
-      totalRequests30Days: 36990,
-      dataServed30Days: 321,
-      lastUpdated: new Date(),
-    },
-    {
-      name: 'AssistantsLab.com',
-      url: 'https://assistantslab.com',
-      description: 'A non-profit AI organization, home to AI moderation and small language models.',
-      uniqueVisitors30Days: 0,
-      totalRequests30Days: 12090,
-      dataServed30Days: 348,
-      lastUpdated: new Date(),
-    },
-  ];
 
   const papers: PaperStats[] = [
     {
@@ -160,77 +136,80 @@ const Projects: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    // Check if we have an activeTab in location state (from chart navigation)
-    if (location.state?.activeTab) {
-      setActiveTab(location.state.activeTab);
-      // Clear the state after using it to prevent it from persisting on refresh
-      window.history.replaceState({}, document.title);
-    }
-    
-    // Load papers data first as it's hardcoded
-    setLoading(false);
-
-    // Load other data in the background
-    const loadBackgroundData = async () => {
-      try {
-        // Load Minecraft plugins data
-        fetchProjects().catch(console.error);
-        
-        // Load AI models data
-        fetchAiModels().catch(console.error);
-        
-        // Load Steam Workshop mods data
-        fetchSteamMods().catch(console.error);
-      } catch (error) {
-        console.error('Error loading background data:', error);
+  const fetchSteamMods = useCallback(async () => {
+    setLoadingMods(true);
+    const listCacheKey = 'steamModsListCache';
+    const cachedList = getCache(listCacheKey);
+    let validMods = null;
+    if (cachedList) {
+      validMods = cachedList;
+      setSteamMods(validMods);
+      if (validMods.length > 0 && !selectedMod) {
+        setSelectedMod(validMods[0]);
       }
-    };
-
-    loadBackgroundData();
-  }, [location.state]); // Run when component mounts or location state changes
-
-  useEffect(() => {
-    fetchCloudflareData();
-  }, []);
-
-  const fetchCloudflareData = async () => {
-    setLoadingDomains(true);
+      setLoadingMods(false);
+      return;
+    }
     try {
-      const response = await fetch('https://api.michielo.com/api/statistics/cloudflare');
+      const response = await fetch('https://api.michielo.com/api/statistics/steam');
       if (!response.ok) {
-        throw new Error('Failed to fetch Cloudflare domains');
+        throw new Error('Failed to fetch Steam Workshop mods');
       }
       const data = await response.json();
-      setCloudflareDomains(data);
-      
-      // Select first domain by default
-      if (data.length > 0) {
-        setSelectedDomain(data[0]);
-        fetchDomainStats(data[0].id);
+      const workshopIds = data.workshop_ids || [];
+      // Fetch details for each workshop item
+      const modsData = await Promise.all(
+        workshopIds.map(async (id: string) => {
+          const modCacheKey = `steamModCache_${id}`;
+          const cachedMod = getCache(modCacheKey);
+          if (cachedMod) return cachedMod;
+          try {
+            const modResponse = await fetch(`https://api.michielo.com/api/statistics/steam/${id}`);
+            if (!modResponse.ok) return null;
+            const modData = await modResponse.json();
+            // Add game name (hardcoded for now)
+            if (id === '1865844684') {
+              modData.game = 'Hearts Of Iron 4';
+            }
+            setCache(modCacheKey, modData);
+            return modData;
+          } catch (err) {
+            console.error(`Error fetching mod ${id}:`, err);
+            return null;
+          }
+        })
+      );
+      validMods = modsData.filter(Boolean);
+      setSteamMods(validMods);
+      setCache(listCacheKey, validMods);
+      // If no mod is selected yet and we have mods, select the first one
+      if (validMods.length > 0 && !selectedMod) {
+        setSelectedMod(validMods[0]);
       }
     } catch (err) {
-      console.error('Error fetching Cloudflare domains:', err);
+      console.error('Error fetching Steam Workshop mods:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
-      setLoadingDomains(false);
+      setLoadingMods(false);
     }
-  };
+  }, [selectedMod]);
 
-  const fetchDomainStats = async (domainId: string) => {
+  // Move fetchDomainStats before fetchCloudflareData and wrap with useCallback
+  const fetchDomainStats = useCallback(async (domainId: string) => {
     setLoadingDomainStats(true);
     try {
       const response = await fetch(`https://api.michielo.com/api/statistics/cloudflare/${domainId}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch domain statistics');
+        throw new Error('Failed to fetch domain stats');
       }
       const data = await response.json();
       setDomainStats(data);
     } catch (err) {
-      console.error('Error fetching domain statistics:', err);
+      console.error('Error fetching domain stats:', err);
     } finally {
       setLoadingDomainStats(false);
     }
-  };
+  }, []);
 
   const getTrafficChartData = () => {
     if (!domainStats) return null;
@@ -270,6 +249,62 @@ const Projects: React.FC = () => {
       }
     }
   };
+
+  const fetchCloudflareData = useCallback(async () => {
+    setLoadingDomains(true);
+    try {
+      const response = await fetch('https://api.michielo.com/api/statistics/cloudflare');
+      if (!response.ok) {
+        throw new Error('Failed to fetch Cloudflare domains');
+      }
+      const data = await response.json();
+      setCloudflareDomains(data);
+      
+      // Select first domain by default
+      if (data.length > 0) {
+        setSelectedDomain(data[0]);
+        fetchDomainStats(data[0].id);
+      }
+    } catch (err) {
+      console.error('Error fetching Cloudflare domains:', err);
+    } finally {
+      setLoadingDomains(false);
+    }
+  }, [fetchDomainStats]);
+
+  useEffect(() => {
+    // Check if we have an activeTab in location state (from chart navigation)
+    if (location.state?.activeTab) {
+      setActiveTab(location.state.activeTab);
+      // Clear the state after using it to prevent it from persisting on refresh
+      window.history.replaceState({}, document.title);
+    }
+    
+    // Load papers data first as it's hardcoded
+    setLoading(false);
+
+    // Load other data in the background
+    const loadBackgroundData = async () => {
+      try {
+        // Load Minecraft plugins data
+        fetchProjects().catch(console.error);
+        
+        // Load AI models data
+        fetchAiModels().catch(console.error);
+        
+        // Load Steam Workshop mods data
+        fetchSteamMods().catch(console.error);
+      } catch (error) {
+        console.error('Error loading background data:', error);
+      }
+    };
+
+    loadBackgroundData();
+  }, [location.state, fetchSteamMods]); // Now fetchSteamMods is properly memoized
+
+  useEffect(() => {
+    fetchCloudflareData();
+  }, [fetchCloudflareData]); // Now fetchCloudflareData is properly memoized
 
   const fetchProjects = async () => {
     const cacheKey = 'projectsListCache';
@@ -401,63 +436,9 @@ const Projects: React.FC = () => {
     }
   };
 
-  const fetchSteamMods = async () => {
-    setLoadingMods(true);
-    const listCacheKey = 'steamModsListCache';
-    const cachedList = getCache(listCacheKey);
-    let validMods = null;
-    if (cachedList) {
-      validMods = cachedList;
-      setSteamMods(validMods);
-      if (validMods.length > 0 && !selectedMod) {
-        setSelectedMod(validMods[0]);
-      }
-      setLoadingMods(false);
-      return;
-    }
-    try {
-      const response = await fetch('https://api.michielo.com/api/statistics/steam');
-      if (!response.ok) {
-        throw new Error('Failed to fetch Steam Workshop mods');
-      }
-      const data = await response.json();
-      const workshopIds = data.workshop_ids || [];
-      // Fetch details for each workshop item
-      const modsData = await Promise.all(
-        workshopIds.map(async (id: string) => {
-          const modCacheKey = `steamModCache_${id}`;
-          const cachedMod = getCache(modCacheKey);
-          if (cachedMod) return cachedMod;
-          try {
-            const modResponse = await fetch(`https://api.michielo.com/api/statistics/steam/${id}`);
-            if (!modResponse.ok) return null;
-            const modData = await modResponse.json();
-            // Add game name (hardcoded for now)
-            if (id === '1865844684') {
-              modData.game = 'Hearts Of Iron 4';
-            }
-            setCache(modCacheKey, modData);
-            return modData;
-          } catch (err) {
-            console.error(`Error fetching mod ${id}:`, err);
-            return null;
-          }
-        })
-      );
-      validMods = modsData.filter(Boolean);
-      setSteamMods(validMods);
-      setCache(listCacheKey, validMods);
-      // If no mod is selected yet and we have mods, select the first one
-      if (validMods.length > 0 && !selectedMod) {
-        setSelectedMod(validMods[0]);
-      }
-    } catch (err) {
-      console.error('Error fetching Steam Workshop mods:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoadingMods(false);
-    }
-  };
+  useEffect(() => {
+    fetchSteamMods();
+  }, [fetchSteamMods]);
 
   const formatNumber = (num: number) => {
     return new Intl.NumberFormat().format(num);
@@ -697,10 +678,11 @@ const Projects: React.FC = () => {
         {selectedPaper ? (
           <div className="space-y-8">
             {/* Paper Type Badge */}
-            <div className="inline-block px-3 py-1 rounded-full text-sm font-medium
-              ${selectedPaper.type === 'Preprint' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300' :
-                selectedPaper.type === 'Peer Review' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300' :
-                'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300'}">
+            <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+              selectedPaper.type === 'Preprint' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300' :
+              selectedPaper.type === 'Peer Review' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300' :
+              'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300'
+            }`}>
               {selectedPaper.type}
             </div>
 

@@ -48,36 +48,7 @@ export interface SpigotMCStats {
   version: string;
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message: string;
-}
 
-export interface HuggingFaceModelStats {
-  model_id: string;
-  full_path: string;
-  url: string;
-  author?: {
-    name: string;
-    url: string;
-  };
-  downloads?: number;
-}
-
-export interface HuggingFaceResponse {
-  success: boolean;
-  data: {
-    models: HuggingFaceModelStats[];
-  };
-  message: string;
-}
-
-export interface HuggingFaceModelResponse {
-  success: boolean;
-  data: HuggingFaceModelStats;
-  message: string;
-}
 
 export interface WebsiteStats {
   name: string;
@@ -112,19 +83,7 @@ export interface SteamWorkshopStats {
   game?: string;
 }
 
-export interface SteamWorkshopResponse {
-  success: boolean;
-  data: {
-    workshop_ids: string[];
-  };
-  message: string;
-}
 
-export interface SteamWorkshopItemResponse {
-  success: boolean;
-  data: SteamWorkshopStats;
-  message: string;
-}
 
 export interface CloudflareDomain {
   id: string;
