@@ -3,6 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { ApiResponse, ProjectStats, SpigotMCStats, HuggingFaceModelStats } from '../types/statistics';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -85,6 +86,7 @@ const Hero: React.FC<HeroProps> = ({ name = 'Michiel' }) => {
     },
   ]);
   const [totalImpact, setTotalImpact] = useState(0);
+  const { theme } = useTheme();
   
   // Fetch data from APIs
   useEffect(() => {
@@ -461,7 +463,7 @@ const Hero: React.FC<HeroProps> = ({ name = 'Michiel' }) => {
             <div className="pt-4">
               <button 
                 onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                className={`px-6 py-3 rounded-lg transition-colors text-white ${theme === 'dark' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-700 hover:bg-blue-800'}`}
               >
                 Explore My Work
               </button>

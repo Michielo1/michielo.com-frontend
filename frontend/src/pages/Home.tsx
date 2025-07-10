@@ -20,6 +20,7 @@ import {
   ChartOptions
 } from 'chart.js';
 import About from '../components/About';
+import { useTheme } from '../context/ThemeContext';
 
 ChartJS.register(
   CategoryScale,
@@ -92,6 +93,7 @@ const Projects: React.FC = () => {
   const [domainStats, setDomainStats] = useState<CloudflareStats | null>(null);
   const [loadingDomains, setLoadingDomains] = useState(false);
   const [loadingDomainStats, setLoadingDomainStats] = useState(false);
+  const { theme } = useTheme();
 
   const discordBots: DiscordBotStats[] = [
     {
@@ -966,7 +968,7 @@ const Projects: React.FC = () => {
             onClick={() => setActiveTab('papers')}
             className={`px-4 py-2 rounded-lg transition-colors ${
               activeTab === 'papers'
-                ? 'bg-blue-500 text-white'
+                ? (theme === 'dark' ? 'bg-blue-600 text-white' : 'bg-blue-700 text-white')
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
@@ -976,17 +978,17 @@ const Projects: React.FC = () => {
             onClick={() => setActiveTab('minecraft')}
             className={`px-4 py-2 rounded-lg transition-colors ${
               activeTab === 'minecraft'
-                ? 'bg-blue-500 text-white'
+                ? (theme === 'dark' ? 'bg-blue-500 text-white' : 'bg-blue-700 text-white')
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
-            Plugins
+            Minecraft Plugins
           </button>
           <button
             onClick={() => setActiveTab('discord')}
             className={`px-4 py-2 rounded-lg transition-colors ${
               activeTab === 'discord'
-                ? 'bg-blue-500 text-white'
+                ? (theme === 'dark' ? 'bg-blue-500 text-white' : 'bg-blue-700 text-white')
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
@@ -996,7 +998,7 @@ const Projects: React.FC = () => {
             onClick={() => setActiveTab('ai')}
             className={`px-4 py-2 rounded-lg transition-colors ${
               activeTab === 'ai'
-                ? 'bg-blue-500 text-white'
+                ? (theme === 'dark' ? 'bg-blue-500 text-white' : 'bg-blue-700 text-white')
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
@@ -1006,7 +1008,7 @@ const Projects: React.FC = () => {
             onClick={() => setActiveTab('websites')}
             className={`px-4 py-2 rounded-lg transition-colors ${
               activeTab === 'websites'
-                ? 'bg-blue-500 text-white'
+                ? (theme === 'dark' ? 'bg-blue-500 text-white' : 'bg-blue-700 text-white')
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
@@ -1016,7 +1018,7 @@ const Projects: React.FC = () => {
             onClick={() => setActiveTab('mods')}
             className={`px-4 py-2 rounded-lg transition-colors ${
               activeTab === 'mods'
-                ? 'bg-blue-500 text-white'
+                ? (theme === 'dark' ? 'bg-blue-500 text-white' : 'bg-blue-700 text-white')
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
@@ -1051,7 +1053,7 @@ const Projects: React.FC = () => {
                   href="https://www.spigotmc.org/resources/authors/michielo.831116/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  className={`inline-flex items-center px-4 py-2 rounded-lg transition-colors text-white ${theme === 'dark' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-blue-700 hover:bg-blue-800'}`}
                 >
                   See More Plugins
                   <svg 
