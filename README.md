@@ -9,10 +9,10 @@ Both the front and backend use standard caching practices with the focus on havi
 
 ## Ratings
 
-- [PageSpeed insights - desktop](https://pagespeed.web.dev/analysis/https-www-michielo-com/2qpnrhiskz?form_factor=desktop) <br>
+- [PageSpeed insights - desktop](https://pagespeed.web.dev/analysis/https-michielo-com/3no2uguk0p?form_factor=desktop) <br>
   The scores from PageSpeed insights gives the desktop version performance 100/100, accessibility 100/100, best practices 100/100, SEO 100/100
-- [PageSpeed insights - mobile](https://pagespeed.web.dev/analysis/https-www-michielo-com/2qpnrhiskz?form_factor=mobile) <br>
-  The scores from PageSpeed insights gives the mobile version performance 93/100, accessibility 100/100, best practices 100/100, SEO 100/100
+- [PageSpeed insights - mobile](https://pagespeed.web.dev/analysis/https-michielo-com/3no2uguk0p?form_factor=mobile) <br>
+  The scores from PageSpeed insights gives the mobile version performance 99/100, accessibility 100/100, best practices 100/100, SEO 100/100
 - [Pingdom Website Speed Test](https://tools.pingdom.com/#65fd8ca49a000000) <br>
   Performance grade 98 (A)
 - [DebugBear](https://www.debugbear.com/test/website-speed/J9kVO7Kc/overview#) <br>
