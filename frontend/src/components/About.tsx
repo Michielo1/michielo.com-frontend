@@ -111,7 +111,7 @@ const About: React.FC<AboutProps> = ({ showDiscordModal, setShowDiscordModal }) 
             >
               <div className="flex justify-center items-center h-12">
                 <img 
-                  src="https://static.spigotmc.org/img/spigot.png" 
+                  src="/spigot.webp" 
                   alt="SpigotMC Logo" 
                   className="w-8 h-8 object-contain group-hover:scale-110 transition-transform"
                 />
