@@ -1,0 +1,3 @@
+- [Home](README.md)
+- [MagicWands](MagicWands/README.md) 
+- [ItemDeleter](ItemDeleter/README.md)

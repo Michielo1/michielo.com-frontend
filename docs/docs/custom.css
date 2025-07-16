@@ -1,0 +1,203 @@
+/* Light mode (default) */
+.markdown-section, .markdown-section * {
+  color: #1f2937 !important; /* Tailwind's gray-800 */
+}
+
+html.dark .markdown-section, html.dark .markdown-section * {
+  color: #f3f4f6 !important; /* Tailwind's gray-100 */
+}
+
+body {
+  background-color: #f9fafb; /* Tailwind's gray-50 */
+  color: #1f2937; /* Tailwind's gray-800 */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar {
+  background-color: #fff !important; /* white, matches Hero light */
+  border-radius: 0 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  color: #1f2937; /* gray-800 */
+  border: 1px solid #e5e7eb; /* gray-200 */
+  border: none !important;
+}
+.content {
+  background-color: #fff; /* white cards */
+  border-radius: 0 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  color: #1f2937; /* gray-800 */
+  border: 1px solid #e5e7eb; /* gray-200 */
+  border: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111827; /* gray-900 */
+}
+
+a {
+  color: #3B82F6; /* blue-500 */
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #2563EB; /* blue-600 */
+}
+
+/* Dark mode */
+html.dark body {
+  background-color: #111827; /* Tailwind's gray-900 */
+  color: #f3f4f6; /* gray-100 */
+}
+html.dark .sidebar {
+  background-color: #111827 !important; /* gray-900, matches Hero dark */
+  color: #f3f4f6 !important; /* gray-100 */
+  border: 1px solid #374151; /* gray-700 */
+  border: none !important;
+}
+html.dark .content {
+  background-color: #1f2937; /* Tailwind's gray-800 */
+  color: #f3f4f6; /* gray-100 */
+  border: 1px solid #374151; /* gray-700 */
+  border: none !important;
+}
+
+html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark h5, html.dark h6 {
+  color: #fff; /* white */
+}
+
+html.dark a {
+  color: #60a5fa; /* blue-400 */
+}
+html.dark a:hover {
+  color: #3B82F6; /* blue-500 */
+} 
+
+/* Sidebar toggle button: visible, no outline, no border, icon visible */
+.sidebar-toggle {
+  background: #fff !important; /* match sidebar in light mode */
+  color: #1D4ED8 !important; /* Tailwind blue-700, matches Hero button */
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.sidebar-toggle:hover {
+  background: #f3f4f6 !important;
+  color: #2563EB !important; /* Tailwind blue-600, matches Hero button hover */
+}
+.sidebar-toggle:focus, .sidebar-toggle:active, .sidebar-toggle:focus-visible, .sidebar-toggle:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+html.dark .sidebar-toggle {
+  background: #111827 !important; /* match sidebar in dark mode */
+  color: #60a5fa !important; /* keep blue-400 for dark mode for contrast */
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+html.dark .sidebar-toggle:hover {
+  background: #374151 !important;
+  color: #3B82F6 !important; /* blue-500 for dark mode hover */
+} 
+
+/* Sidebar subpage links (nested) */
+.sidebar ul ul a {
+  color: #6b7280 !important; /* gray-500 for light mode */
+}
+html.dark .sidebar ul ul a {
+  color: #d1d5db !important; /* gray-300 for dark mode */
+} 
+
+/* Sidebar Home link (top-level) */
+.sidebar > ul > li > a {
+  color: #1f2937 !important; /* gray-800 for light mode */
+}
+html.dark .sidebar > ul > li > a,
+html.dark .sidebar > ul > li > a *,
+html.dark .sidebar ul li:first-child a,
+html.dark .sidebar ul li:first-child a * {
+  color: #f3f4f6 !important;
+} 
+
+/* Main sidebar: MagicWands link light in dark mode */
+html.dark .sidebar > ul > li > a,
+html.dark .sidebar > ul > li > a *,
+html.dark .sidebar ul li a {
+  color: #f3f4f6 !important;
+}
+
+/* MagicWands sidebar: all top-level links light in dark mode */
+html.dark .sidebar ul a {
+  color: #f3f4f6 !important;
+}
+
+/* Sidebar subpage links (nested) lighter gray in dark mode */
+html.dark .sidebar ul ul a {
+  color: #d1d5db !important;
+} 
+
+/* Table row striping in dark mode: use dark gray instead of white */
+html.dark .markdown-section tr:nth-child(even) {
+  background-color: #23272f !important; /* dark gray */
+} 
+
+/* Inline code background in dark mode: use dark gray instead of white */
+html.dark .markdown-section code:not(pre code) {
+  background-color: #23272f !important;
+  color: #f3f4f6 !important;
+} 
+
+/* Code block background in dark mode: use dark gray instead of light */
+html.dark .markdown-section pre,
+html.dark .markdown-section pre code {
+  background-color: #23272f !important; /* dark gray */
+  color: #f3f4f6 !important;            /* light text */
+  border-radius: 0.5rem;
+} 
+
+html, body {
+  background-color: #fff !important;
+  min-height: 100vh;
+}
+html.dark, html.dark body {
+  background-color: #1f2937 !important;
+  min-height: 100vh;
+} 
+
+body.close .sidebar-toggle,
+body.sidebar-close .sidebar-toggle {
+  background: #fff !important; /* match content in light mode when sidebar is closed */
+}
+html.dark body.close .sidebar-toggle,
+html.dark body.sidebar-close .sidebar-toggle {
+  background: #1f2937 !important; /* match content in dark mode when sidebar is closed */
+} 
+
+.sidebar-toggle svg, .sidebar-toggle svg *, .sidebar-toggle path {
+  stroke: #1D4ED8 !important;
+  fill: none !important;
+}
+.sidebar-toggle:hover svg, .sidebar-toggle:hover svg *, .sidebar-toggle:hover path {
+  stroke: #2563EB !important;
+}
+html.dark .sidebar-toggle svg, html.dark .sidebar-toggle svg *, html.dark .sidebar-toggle path {
+  stroke: #60a5fa !important;
+}
+html.dark .sidebar-toggle:hover svg, html.dark .sidebar-toggle:hover svg *, html.dark .sidebar-toggle:hover path {
+  stroke: #3B82F6 !important;
+} 
+
+.sidebar-toggle-button span {
+  background: #1D4ED8 !important; /* Tailwind blue-700, matches Hero button */
+}
+.sidebar-toggle-button:hover span {
+  background: #2563EB !important; /* Tailwind blue-600, matches Hero button hover */
+}
+html.dark .sidebar-toggle-button span {
+  background: #60a5fa !important; /* Tailwind blue-400 for dark mode */
+}
+html.dark .sidebar-toggle-button:hover span {
+  background: #3B82F6 !important; /* Tailwind blue-500 for dark mode hover */
+} 

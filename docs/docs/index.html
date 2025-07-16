@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <link rel="stylesheet" href="custom.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app"></div>
+  <div id="theme-toggle" style="position:fixed;top:1rem;right:1rem;z-index:1000">
+    <button id="toggle-theme-btn" aria-label="Toggle theme" style="background:#e5e7eb;border:none;border-radius:0.5rem;padding:0.5rem;cursor:pointer;transition:background 0.2s;">
+      <span id="theme-icon">
+        <!-- Light mode icon (moon) -->
+        <svg id="icon-moon" style="display:none;" width="24" height="24" fill="none" stroke="#1f2937" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <!-- Dark mode icon (sun, yellow) -->
+        <svg id="icon-sun" style="display:none;" width="24" height="24" fill="none" stroke="#fde047" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/></svg>
+      </span>
+    </button>
+  </div>
+  <script>
+    window.$docsify = {
+      name: '',
+      repo: '',
+      loadSidebar: true
+    }
+  </script>
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script>
+    function getPreferredTheme() {
+      if (localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      localStorage.setItem('theme', theme);
+      setThemeIcon();
+    }
+    function setThemeIcon() {
+      const isDark = document.documentElement.classList.contains('dark');
+      document.getElementById('icon-moon').style.display = isDark ? 'none' : '';
+      document.getElementById('icon-sun').style.display = isDark ? '' : 'none';
+      document.getElementById('toggle-theme-btn').style.background = isDark ? '#374151' : '#e5e7eb';
+    }
+    document.getElementById('toggle-theme-btn').onclick = function() {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    };
+    // On page load, set theme from localStorage or system preference
+    setTheme(getPreferredTheme());
+  </script>
+</body>
+</html>

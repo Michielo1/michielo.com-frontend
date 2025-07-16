@@ -1,11 +1,14 @@
 # michielo.com frontend
 
-This is the frontend repository for michielo.com. The frontend is based on a basic react app with the aim being a simplistic/minimalistic, sleek and easy-to-read design that is able to showcase my projects and give a basic introduction.
+This is the frontend repository for michielo.com. The frontend landing/portfolio is based on a basic react app with the aim being a simplistic/minimalistic, sleek and easy-to-read design that is able to showcase my projects and give a basic introduction.
 
 Visit the site [here](https://michielo.com).
 
 I tried to make the site quite strong performance wise using standard UX/UI practices such as placeholders/skeletons, preferring loading static content rather than whatever needs to be fetched from the backend etc.
 Both the front and backend use standard caching practices with the focus on having required information ready when possible (and of course avoiding getting rate limited when fetching projects from external api
+
+
+This repo also includes the documentation for my projects. I used docsify for this to automatically convert markdown into documentation bootstrapped with a Tailwind CDN and some custom CSS. This allows me to easily update & create documentation whilst retaining the style that I'm aiming for the main site.
 
 ## Ratings
 
@@ -30,3 +33,4 @@ This all reveals that the mobile compatibility needs some more work (pagespeed m
 
 ## Credits
 Boilerplate from [react.dev](https://react.dev/community/acknowledgements)
+Documentation with [docsify](https://docsify.js.org/#/)
