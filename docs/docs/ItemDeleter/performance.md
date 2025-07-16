@@ -19,7 +19,7 @@ The events ``chunkload`` and ``chunkpopulate`` are disabled by default and I do 
 
 ### Comparison
 
-If you want to prevent certain blocks and keep impact lowest, not using these events is the best case scenario. This is because, when these events are on, we take a snapshot of the given chunk and go over the blocks. This is mostly async and thus will increase CPU usage but not affect the main thread as much. That being said, if you CPU usage is capped (which most server providers do), this will still lag your server. Not to mention that taking the snapshot itself also steals a bit of performance. If you have a relatively active server this could lead to checking multiple chunks a second, which you can imagine is very intensive.
+If you want to prevent certain blocks and keep impact lowest, not using these events is the best case scenario. This is because, when these events are on, we take a snapshot of the given chunk and go over the blocks. This is mostly async and thus will increase CPU usage but not affect the main thread as much. That being said, if your CPU usage is capped (which most server providers do), this may still lag your server. Not to mention that taking the snapshot itself also steals some performance. If you have a relatively active server this could lead to checking multiple chunks a second, which you can imagine is very intensive.
 
 Let's talk numbers, when having both the ``chunkload`` and ``chunkpopulate`` events on and loading chunks to the point of TPS starting to drop, we can see that according to [spark](https://spark.lucko.me/) the ItemDeleter plugin is 7.26% of the total load:
 ```
