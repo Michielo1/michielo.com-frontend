@@ -85,7 +85,7 @@ const WebsitesSection: React.FC<WebsitesSectionProps> = ({
 
           {/* Statistics Summary */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-6 bg-purple-50 dark:bg-purple-900/20 rounded-lg transition-colors">
+            <div className="p-6 bg-purple-50 dark:bg-purple-900/20 rounded-lg transition-colors relative">
               <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-300">Traffic Statistics</h3>
               <div>
                 <p className="text-sm text-purple-600 dark:text-purple-300">Total Requests (30 days)</p>
@@ -93,9 +93,13 @@ const WebsitesSection: React.FC<WebsitesSectionProps> = ({
                   {formatNumber(domainStats.traffic.reduce((sum, day) => sum + day.requests, 0))}
                 </p>
               </div>
+              {/* Cloudflare Tag */}
+              <span className="absolute bottom-1.5 right-1.5 flex items-center justify-center w-16 h-5 rounded-full border border-purple-200 dark:border-purple-400 bg-white/80 dark:bg-gray-900/80 text-[10px] font-normal text-purple-400 dark:text-purple-300 select-none" style={{letterSpacing: '0.02em'}}>
+                Cloudflare
+              </span>
             </div>
 
-            <div className="p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg transition-colors">
+            <div className="p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg transition-colors relative">
               <h3 className="text-lg font-semibold mb-4 text-blue-800 dark:text-blue-300">Daily Average</h3>
               <div>
                 <p className="text-sm text-blue-600 dark:text-blue-300">Average Daily Requests</p>
@@ -105,6 +109,10 @@ const WebsitesSection: React.FC<WebsitesSectionProps> = ({
                   ))}
                 </p>
               </div>
+              {/* Cloudflare Tag */}
+              <span className="absolute bottom-1.5 right-1.5 flex items-center justify-center w-16 h-5 rounded-full border border-blue-200 dark:border-blue-400 bg-white/80 dark:bg-gray-900/80 text-[10px] font-normal text-blue-400 dark:text-blue-300 select-none" style={{letterSpacing: '0.02em'}}>
+                Cloudflare
+              </span>
             </div>
           </div>
 

@@ -89,7 +89,7 @@ const PluginsSection: React.FC<PluginsSectionProps> = ({
         ) : selectedProject ? (
           <div className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg transition-colors">
+              <div className="p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg transition-colors relative">
                 <h3 className="text-lg font-semibold mb-4 text-blue-800 dark:text-blue-300">Server Statistics</h3>
                 <div className="space-y-3">
                   <div>
@@ -99,9 +99,13 @@ const PluginsSection: React.FC<PluginsSectionProps> = ({
                     </p>
                   </div>
                 </div>
+                {/* Bstats Tag */}
+                <span className="absolute bottom-1.5 right-1.5 flex items-center justify-center w-12 h-5 rounded-full border border-blue-200 dark:border-blue-400 bg-white/80 dark:bg-gray-900/80 text-[10px] font-normal text-blue-400 dark:text-blue-300 select-none" style={{letterSpacing: '0.02em'}}>
+                  Bstats
+                </span>
               </div>
 
-              <div className="p-6 bg-green-50 dark:bg-green-900/20 rounded-lg transition-colors">
+              <div className="p-6 bg-green-50 dark:bg-green-900/20 rounded-lg transition-colors relative">
                 <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-300">Player Statistics</h3>
                 <div className="space-y-3">
                   <div>
@@ -117,6 +121,10 @@ const PluginsSection: React.FC<PluginsSectionProps> = ({
                     </p>
                   </div>
                 </div>
+                {/* Bstats Tag */}
+                <span className="absolute bottom-1.5 right-1.5 flex items-center justify-center w-12 h-5 rounded-full border border-green-200 dark:border-green-400 bg-white/80 dark:bg-gray-900/80 text-[10px] font-normal text-green-400 dark:text-green-300 select-none" style={{letterSpacing: '0.02em'}}>
+                  Bstats
+                </span>
               </div>
             </div>
 
