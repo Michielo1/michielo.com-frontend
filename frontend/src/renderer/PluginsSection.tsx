@@ -168,6 +168,17 @@ const PluginsSection: React.FC<PluginsSectionProps> = ({
                 </div>
               </div>
             )}
+            {/* No SpigotMC page found message */}
+            {!loadingSpigot && !spigotStats && (
+              <div className="p-6 bg-purple-50 dark:bg-purple-900/20 rounded-lg transition-colors flex items-center justify-center min-h-[140px]">
+                <div className="text-center w-full">
+                  <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-300">SpigotMC Statistics</h3>
+                  <div className="text-purple-800 dark:text-purple-200 whitespace-pre-line text-base font-medium">
+                    {`No SpigotMC page found!\nMaybe this plugin is closed-source?`}
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="text-sm text-gray-500 dark:text-gray-400">
               Last updated: {new Date(selectedProject.last_updated).toLocaleString()}
