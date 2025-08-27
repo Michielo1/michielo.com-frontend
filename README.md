@@ -25,11 +25,11 @@ This all reveals that the mobile compatibility needs some more work (pagespeed m
 
 ## Sources
 - Papers - statically loaded as this changes very rarely & wanting to use differing sources.
-- Plugins - Server & player statistics from [bstats](https://bstats.org). Plugin names, downloads, ratings from [spigotmc.org](https://www.spigotmc.org).
+- Plugins - Server & player statistics from [bstats](https://bstats.org). Plugin names, downloads, ratings from [spigotmc.org](https://www.spigotmc.org) & [Modrinth](https://modrinth.com).
 - Discord bots - Currently static, this will be using a W.I.P. backend API for the auditlogger bots.
 - AI models - All information from [HuggingFace](https://huggingface.co).
 - Websites - All information from [Cloudflare](https://www.cloudflare.com).
-- Mods - All information from [Steam](https://store.steampowered.com).
+- Mods - All information from [Steam](https://store.steampowered.com) & [Modrinth](https://modrinth.com).
 
 ## Credits
 Boilerplate from [react.dev](https://react.dev/community/acknowledgements)
